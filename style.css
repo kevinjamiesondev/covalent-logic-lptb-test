@@ -56,6 +56,10 @@ body > * {
   outline-offset: 3px;
 }
 
+.user-menu ul {
+  padding: 0;
+}
+
 /* ------------------------------
    NAVIGATION
 ------------------------------ */
