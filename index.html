@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Louisiana Physical Therapy Board</title>
+
+    <link rel="stylesheet" href="style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    />
+  </head>
+
+  <body>
+    <!-- Header/Navigation -->
+    <header>
+      <nav class="main-nav" aria-label="Primary">
+        <!-- Logo -->
+        <a href="/" class="logo">
+          <img
+            src="assets/logo-lptb-wht.svg"
+            alt="Louisiana Physical Therapy Board Logo"
+          />
+          <div class="logo-text">
+            <span class="logo-line1">State of Louisiana</span>
+            <span class="logo-line2">Physical Therapy Board</span>
+          </div>
+        </a>
+
+        <!-- Mobile Search Button -->
+        <button class="mobile-search-btn" aria-label="Open Search">
+          <!-- Fallback -->
+          <!-- <i class="fa-solid fa-magnifying-glass"></i> -->
+          <span class="search-icon-wrap" aria-hidden="true">
+            <img
+              src="assets/icon-magnifying-glass.svg"
+              alt=""
+              class="search-icon"
+              aria-hidden="true"
+            />
+          </span>
+        </button>
+
+        <!-- Mobile Menu Button -->
+        <button
+          class="mobile-menu-btn"
+          aria-label="Toggle Menu"
+          aria-expanded="false"
+        >
+          <i class="fa-solid fa-bars"></i>
+        </button>
+
+        <!-- Desktop + Mobile Dropdown -->
+        <div class="nav-right" id="primary-nav">
+          <ul class="nav-links">
+            <li><a href="#">About</a></li>
+            <li><a href="#">Public</a></li>
+            <li><a href="#">New Applicants</a></li>
+            <li><a href="#">Licensees</a></li>
+            <li><a href="#">Resources</a></li>
+            <li><a href="#">PT Compact</a></li>
+            <li><a href="#">Newsroom</a></li>
+          </ul>
+
+          <!-- Desktop Icons -->
+          <div class="nav-icons">
+            <!-- USER MENU -->
+            <div class="user-menu">
+              <button
+                id="user-btn"
+                aria-haspopup="true"
+                aria-expanded="false"
+                aria-label="Open user menu"
+              >
+                <!-- <i class="fa-solid fa-user"></i> -->
+                <img
+                  src="assets/icon-user.svg"
+                  alt=""
+                  class="user-icon"
+                  aria-hidden="true"
+                />
+              </button>
+
+              <div class="user-dropdown" role="menu">
+                <p class="user-greeting">
+                  Welcome,<br /><strong>Roxanna.</strong>
+                </p>
+
+                <div class="divider"></div>
+
+                <button class="dashboard-btn" role="menuitem">
+                  View Dashboard
+                  <span class="dashboard-icon-circle">
+                    <i class="fa-solid fa-chevron-right"></i>
+                  </span>
+                </button>
+
+                <div class="divider"></div>
+
+                <button class="logout-btn" role="menuitem">Logout</button>
+              </div>
+            </div>
+
+            <!-- DESKTOP SEARCH BUTTON -->
+            <button class="desktop-search-btn" aria-label="Open Search">
+              <!-- Fallback -->
+              <!-- <i class="fa-solid fa-magnifying-glass"></i> -->
+              <span aria-hidden="true" class="search-icon-wrap">
+                <img
+                  src="assets/icon-magnifying-glass.svg"
+                  alt=""
+                  class="search-icon"
+                  aria-hidden="true"
+                />
+              </span>
+            </button>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <!-- Search Overlay -->
+    <div
+      id="search-overlay"
+      class="search-overlay"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="search-heading"
+    >
+      <button id="close-search" class="close-search" aria-label="Close Search">
+        &times;
+      </button>
+
+      <div class="search-content">
+        <h2 id="search-heading">Can't find what you're looking for?</h2>
+
+        <form class="search-form" action="#" method="get" role="search">
+          <label for="search-field" class="sr-only">Search query</label>
+
+          <div class="search-row">
+            <input
+              id="search-field"
+              type="text"
+              name="q"
+              placeholder="Type to search..."
+            />
+            <button type="submit" class="search-submit-btn">Search</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <main>
+      <section class="content-wrapper">
+        <!-- Left Column -->
+        <article class="left-column">
+          <h1>
+            Welcome to the Louisiana Physical Therapy Board Licensing System.
+          </h1>
+          <p>
+            If you are an existing user (ex: licensee or Compact holder), sign
+            in using your credentials. If you are an existing user and do not
+            know the email address associated with your account, please contact
+            the board to update or retrieve your email address. Do not create a
+            new account.
+          </p>
+          <p>
+            If you are a new applicant or a compact holder logging in for the
+            first time, please <a href="#">Create an Account</a>.
+          </p>
+        </article>
+
+        <!-- Right Column -->
+        <aside class="right-column" aria-label="Login Form">
+          <form action="#" method="post" class="patient-login-form" novalidate>
+            <h2>Portal Login</h2>
+
+            <label for="username">Username / Email *</label>
+            <input
+              type="email"
+              id="username"
+              name="username"
+              required
+              aria-required="true"
+            />
+
+            <label for="password">Password *</label>
+
+            <div class="password-wrapper">
+              <input
+                type="password"
+                id="password"
+                name="password"
+                required
+                aria-required="true"
+              />
+
+              <button
+                type="button"
+                id="toggle-password"
+                class="toggle-password-btn"
+                aria-label="Show password"
+                aria-pressed="false"
+              >
+                <i class="fa-solid fa-eye"></i>
+              </button>
+            </div>
+
+            <a href="#" class="forgot-password">Forgot Password?</a>
+
+            <div class="form-actions">
+              <button type="button" class="btn-alt">Login via Email</button>
+              <button type="submit" class="btn-primary">Login</button>
+            </div>
+          </form>
+        </aside>
+      </section>
+    </main>
+
+    <footer>
+      <p>
+        POWERED BY
+        <a
+          href="https://cicerolicensing.com/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          CICERO LICERING
+        </a>
+      </p>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>
