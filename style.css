@@ -614,6 +614,7 @@ footer {
 footer p {
   margin: 0.25rem 0;
   font-size: 0.8rem;
+  letter-spacing: 0.5px;
 }
 
 footer a {
