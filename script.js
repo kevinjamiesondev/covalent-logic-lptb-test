@@ -2,10 +2,9 @@
    ELEMENT REFERENCES
 ========================================================= */
 
-// Search buttons (class-based)
+// Search
 const desktopSearchBtn = document.querySelector(".desktop-search-btn")
 const mobileSearchBtn = document.querySelector(".mobile-search-btn")
-
 const searchOverlay = document.getElementById("search-overlay")
 const closeSearch = document.getElementById("close-search")
 const searchField = document.getElementById("search-field")
@@ -14,35 +13,85 @@ const searchField = document.getElementById("search-field")
 const userBtn = document.getElementById("user-btn")
 const userDropdown = document.querySelector(".user-dropdown")
 
-// Password toggle
-const passwordInput = document.getElementById("password")
-const togglePassword = document.getElementById("toggle-password")
-
 // Mobile menu
 const mobileMenuBtn = document.querySelector(".mobile-menu-btn")
 const navRight = document.querySelector(".nav-right")
 
+// Password toggle
+const passwordInput = document.getElementById("password")
+const togglePassword = document.getElementById("toggle-password")
+
+// Track last focused element for modal return
+let lastFocusedElement = null
+
 /* =========================================================
-   SEARCH OVERLAY — SHARED
+   ACCESSIBLE SEARCH OVERLAY (Dialog)
 ========================================================= */
 
 function openSearchOverlay() {
   if (!searchOverlay) return
+
+  lastFocusedElement = document.activeElement
+
   searchOverlay.classList.add("show")
+  searchOverlay.setAttribute("aria-hidden", "false")
+
+  // Move focus into modal
   searchField?.focus()
+
+  // Enable traps
+  document.addEventListener("keydown", trapSearchFocus)
+  document.addEventListener("keydown", escCloseSearch)
 }
 
-// Ensure buttons trigger overlay
+function closeSearchOverlay() {
+  searchOverlay.classList.remove("show")
+  searchOverlay.setAttribute("aria-hidden", "true")
+
+  document.removeEventListener("keydown", trapSearchFocus)
+  document.removeEventListener("keydown", escCloseSearch)
+
+  // Restore focus
+  if (lastFocusedElement) lastFocusedElement.focus()
+}
+
+// Open triggers
 desktopSearchBtn?.addEventListener("click", openSearchOverlay)
 mobileSearchBtn?.addEventListener("click", openSearchOverlay)
 
-// Close button
-closeSearch?.addEventListener("click", () => {
-  searchOverlay.classList.remove("show")
-})
+// Close trigger
+closeSearch?.addEventListener("click", closeSearchOverlay)
+
+// ESC support
+function escCloseSearch(e) {
+  if (e.key === "Escape") closeSearchOverlay()
+}
+
+// Focus trap inside modal
+function trapSearchFocus(e) {
+  if (!searchOverlay.classList.contains("show")) return
+  if (e.key !== "Tab") return
+
+  const focusable = searchOverlay.querySelectorAll(
+    'button, input, a[href], [tabindex]:not([tabindex="-1"])'
+  )
+
+  if (!focusable.length) return
+
+  const first = focusable[0]
+  const last = focusable[focusable.length - 1]
+
+  if (e.shiftKey && document.activeElement === first) {
+    e.preventDefault()
+    last.focus()
+  } else if (!e.shiftKey && document.activeElement === last) {
+    e.preventDefault()
+    first.focus()
+  }
+}
 
 /* =========================================================
-   USER MENU DROPDOWN
+   ACCESSIBLE USER DROPDOWN
 ========================================================= */
 
 if (userBtn && userDropdown) {
@@ -53,42 +102,30 @@ if (userBtn && userDropdown) {
     userBtn.setAttribute("aria-expanded", String(newState))
     userDropdown.classList.toggle("show", newState)
 
+    // Focus first item if opening
     if (newState) {
-      const firstFocusable = userDropdown.querySelector("button, a")
-      firstFocusable?.focus()
+      const firstItem = userDropdown.querySelector("button, a")
+      firstItem?.focus()
     }
   })
 
+  // Click outside to close
   document.addEventListener("click", (e) => {
-    const outside =
-      !userBtn.contains(e.target) && !userDropdown.contains(e.target)
-
-    if (outside) {
+    if (!userBtn.contains(e.target) && !userDropdown.contains(e.target)) {
       userBtn.setAttribute("aria-expanded", "false")
       userDropdown.classList.remove("show")
     }
   })
+
+  // Escape closes dropdown
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") {
+      userBtn.setAttribute("aria-expanded", "false")
+      userDropdown.classList.remove("show")
+      userBtn.focus()
+    }
+  })
 }
-
-/* =========================================================
-   ESC KEY HANDLING
-========================================================= */
-
-document.addEventListener("keydown", (e) => {
-  if (e.key !== "Escape") return
-
-  searchOverlay?.classList.remove("show")
-
-  if (userDropdown) {
-    userBtn?.setAttribute("aria-expanded", "false")
-    userDropdown.classList.remove("show")
-  }
-
-  if (navRight?.classList.contains("open")) {
-    navRight.classList.remove("open")
-    mobileMenuBtn?.setAttribute("aria-expanded", "false")
-  }
-})
 
 /* =========================================================
    PASSWORD TOGGLE
@@ -112,7 +149,7 @@ if (togglePassword && passwordInput) {
 }
 
 /* =========================================================
-   MOBILE MENU TOGGLE
+   ACCESSIBLE MOBILE MENU
 ========================================================= */
 
 if (mobileMenuBtn && navRight) {
@@ -120,33 +157,28 @@ if (mobileMenuBtn && navRight) {
     const isOpen = navRight.classList.toggle("open")
     mobileMenuBtn.setAttribute("aria-expanded", String(isOpen))
 
-    // Toggle hamburger ↔ X icon
+    // Toggle icon
     const icon = mobileMenuBtn.querySelector("i")
     if (icon) {
-      if (isOpen) {
-        icon.classList.remove("fa-bars")
-        icon.classList.add("fa-xmark")
-      } else {
-        icon.classList.remove("fa-xmark")
-        icon.classList.add("fa-bars")
-      }
+      icon.classList.toggle("fa-bars", !isOpen)
+      icon.classList.toggle("fa-xmark", isOpen)
     }
 
     if (isOpen) {
-      const firstNavLink = navRight.querySelector(".nav-links a")
-      firstNavLink?.focus()
+      const firstLink = navRight.querySelector(".nav-links a")
+      firstLink?.focus()
     }
   })
 
+  // Close on outside click
   document.addEventListener("click", (e) => {
     const inside =
-      navRight.contains(e.target) || mobileMenuBtn.contains(e.target)
+      mobileMenuBtn.contains(e.target) || navRight.contains(e.target)
 
     if (!inside && navRight.classList.contains("open")) {
       navRight.classList.remove("open")
       mobileMenuBtn.setAttribute("aria-expanded", "false")
 
-      // Reset icon when closing from outside click
       const icon = mobileMenuBtn.querySelector("i")
       if (icon) {
         icon.classList.remove("fa-xmark")
@@ -154,10 +186,19 @@ if (mobileMenuBtn && navRight) {
       }
     }
   })
+
+  // Escape closes mobile menu
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && navRight.classList.contains("open")) {
+      navRight.classList.remove("open")
+      mobileMenuBtn.setAttribute("aria-expanded", "false")
+      mobileMenuBtn.focus()
+    }
+  })
 }
 
 /* =========================================================
-   SAFETY FIX: Prevent SVG wrappers from blocking clicks
+   CLICK-SAFE: Prevent search icons from intercepting clicks
 ========================================================= */
 
 document

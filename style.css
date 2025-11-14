@@ -51,6 +51,11 @@ body > * {
   overflow: hidden;
 }
 
+:focus {
+  outline: 3px solid #ffd24c;
+  outline-offset: 3px;
+}
+
 /* ------------------------------
    NAVIGATION
 ------------------------------ */

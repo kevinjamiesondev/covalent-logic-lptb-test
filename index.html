@@ -47,6 +47,7 @@
           class="mobile-menu-btn"
           aria-label="Toggle Menu"
           aria-expanded="false"
+          aria-controls="primary-nav"
         >
           <i class="fa-solid fa-bars"></i>
         </button>
@@ -83,22 +84,30 @@
               </button>
 
               <div class="user-dropdown" role="menu">
-                <p class="user-greeting">
-                  Welcome,<br /><strong>Roxanna.</strong>
-                </p>
+                <ul>
+                  <li role="presentation">
+                    <p class="user-greeting">
+                      Welcome,<br /><strong>Roxanna.</strong>
+                    </p>
+                  </li>
 
-                <div class="divider"></div>
+                  <li class="divider" role="separator"></li>
 
-                <button class="dashboard-btn" role="menuitem">
-                  View Dashboard
-                  <span class="dashboard-icon-circle">
-                    <i class="fa-solid fa-chevron-right"></i>
-                  </span>
-                </button>
+                  <li role="presentation">
+                    <button class="dashboard-btn" role="menuitem">
+                      View Dashboard
+                      <span class="dashboard-icon-circle">
+                        <i class="fa-solid fa-chevron-right"></i>
+                      </span>
+                    </button>
+                  </li>
 
-                <div class="divider"></div>
+                  <li class="divider" role="separator"></li>
 
-                <button class="logout-btn" role="menuitem">Logout</button>
+                  <li role="presentation">
+                    <button class="logout-btn" role="menuitem">Logout</button>
+                  </li>
+                </ul>
               </div>
             </div>
 
@@ -133,8 +142,7 @@
       </button>
 
       <div class="search-content">
-        <h2 id="search-heading">Can't find what you're looking for?</h2>
-
+        <h2 id="search-heading">Search the Licensing System</h2>
         <form class="search-form" action="#" method="get" role="search">
           <label for="search-field" class="sr-only">Search query</label>
 
@@ -227,7 +235,7 @@
           target="_blank"
           rel="noopener noreferrer"
         >
-          CICERO LICERING
+          CICERO LICENSING
         </a>
       </p>
     </footer>
