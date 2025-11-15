@@ -118,6 +118,16 @@ header {
   padding: 0;
 }
 
+/* Fix random bullets in mobile user dropdown */
+.user-dropdown ul,
+.user-dropdown li,
+.user-menu ul,
+.user-menu li {
+  list-style: none !important;
+  margin: 0;
+  padding: 0;
+}
+
 /* Icon focus states */
 .nav-icons button:focus-visible,
 .close-search:focus-visible,
